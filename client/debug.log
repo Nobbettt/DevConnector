@@ -1,0 +1,8 @@
+[0706/222939.900:ERROR:process_reader_win.cc(151)] SuspendThread: Åtkomst nekad. (0x5)
+[0706/222939.901:ERROR:process_reader_win.cc(123)] NtOpenThread: {Åtkomst nekad} En process har begärt åtkomst till ett objekt, men har inte de rättigheter som krävs. (0xc0000022)
+[0706/222939.902:ERROR:exception_snapshot_win.cc(98)] thread ID 23600 not found in process
+[0706/222939.907:ERROR:process_reader_win.cc(151)] SuspendThread: Åtkomst nekad. (0x5)
+[0706/222939.908:ERROR:process_reader_win.cc(123)] NtOpenThread: {Åtkomst nekad} En process har begärt åtkomst till ett objekt, men har inte de rättigheter som krävs. (0xc0000022)
+[0706/222939.908:ERROR:exception_snapshot_win.cc(98)] thread ID 19788 not found in process
+[0706/222939.923:ERROR:process_reader_win.cc(123)] NtOpenThread: {Åtkomst nekad} En process har begärt åtkomst till ett objekt, men har inte de rättigheter som krävs. (0xc0000022)
+[0706/222939.925:ERROR:exception_snapshot_win.cc(98)] thread ID 8948 not found in process

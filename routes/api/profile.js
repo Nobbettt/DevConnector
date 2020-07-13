@@ -4,13 +4,16 @@ const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+// bring in normalize to give us a proper url, regardless of what user entered
+const normalize = require('normalize-url');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
-const normalize = require('normalize-url');
-// @route   GET api/profile/me
-// @desc    Get current users profile
-// @access  Private
+const Post = require('../../models/Post');
+
+// @route    GET api/profile/me
+// @desc     Get current users profile
+// @access   Private
 router.get('/me', auth, async (req, res) => {
 	try {
 		const profile = await Profile.findOne({
@@ -138,7 +141,7 @@ router.get('/user/:user_id', async (req, res) => {
 router.delete('/', auth, async (req, res) => {
 	try {
 		// Remove user posts
-		//await Post.deleteMany({ user: req.user.id });
+		await Post.deleteMany({ user: req.user.id });
 		// Remove profile
 		await Profile.findOneAndRemove({ user: req.user.id });
 		// Remove user
@@ -211,6 +214,7 @@ router.put(
 // @route    DELETE api/profile/experience/:exp_id
 // @desc     Delete experience from profile
 // @access   Private
+
 router.delete('/experience/:exp_id', auth, async (req, res) => {
 	try {
 		const foundProfile = await Profile.findOne({ user: req.user.id });
@@ -288,6 +292,7 @@ router.put(
 // @route    DELETE api/profile/education/:edu_id
 // @desc     Delete education from profile
 // @access   Private
+
 router.delete('/education/:edu_id', auth, async (req, res) => {
 	try {
 		const foundProfile = await Profile.findOne({ user: req.user.id });
@@ -302,42 +307,9 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 	}
 });
 
-// old version
-// @route    DELETE api/profile/github/:username
-// @desc     Gegt user repos from Github
-// @access   Public
-/*
-router.get('/github/:username', async (req, res) => {
-	try {
-		const options = {
-			uri: `https://api.github.com/users/${
-				req.params.username
-			}/repos?per_page=5&sort=created:asc&client_id=${config.get(
-				'githubClientId'
-			)}&client_secret=${config.get('githubSecret')}`,
-			method: 'GET',
-			headers: { 'user-agent': 'node.js' },
-		};
-
-		request(options, (error, respons, body) => {
-			if (error) console.erros(error);
-
-			if (respons.statusCode !== 200) {
-				return res.status(404).json({ msg: 'No Github profile found' });
-			}
-
-			res.json(JSON.parse(body));
-		});
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({ msg: 'Server error' });
-	}
-});*/
-
 // @route    GET api/profile/github/:username
 // @desc     Get user repos from Github
 // @access   Public
-
 router.get('/github/:username', async (req, res) => {
 	try {
 		const uri = encodeURI(

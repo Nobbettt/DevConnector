@@ -8,9 +8,9 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 
-// @route   GET api/auth
-// @desc    Test route
-// @access  Public
+// @route    GET api/auth
+// @desc     Get user by token
+// @access   Private
 router.get('/', auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id).select('-password');
@@ -22,7 +22,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route    POST api/auth
-// @desc     Auhenticate user and get token
+// @desc     Authenticate user & get token
 // @access   Public
 router.post(
 	'/',
@@ -41,7 +41,6 @@ router.post(
 		try {
 			let user = await User.findOne({ email });
 
-			// Check if user alredy exist
 			if (!user) {
 				return res
 					.status(400)
@@ -56,7 +55,6 @@ router.post(
 					.json({ errors: [{ msg: 'Invalid Credentials' }] });
 			}
 
-			// Return jsonwebtoken
 			const payload = {
 				user: {
 					id: user.id,
@@ -66,7 +64,7 @@ router.post(
 			jwt.sign(
 				payload,
 				config.get('jwtSecret'),
-				{ expiresIn: 360000 }, // cahange this to 3600 at deploy
+				{ expiresIn: 360000 },
 				(err, token) => {
 					if (err) throw err;
 					res.json({ token });

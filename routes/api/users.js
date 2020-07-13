@@ -33,14 +33,12 @@ router.post(
 		try {
 			let user = await User.findOne({ email });
 
-			// Check if user alredy exist
 			if (user) {
 				return res
 					.status(400)
 					.json({ errors: [{ msg: 'User already exists' }] });
 			}
 
-			// Get users gravatar
 			const avatar = normalize(
 				gravatar.url(email, {
 					s: '200',
@@ -57,14 +55,12 @@ router.post(
 				password,
 			});
 
-			// Encrypt password
 			const salt = await bcrypt.genSalt(10);
+
 			user.password = await bcrypt.hash(password, salt);
 
-			// Save user
 			await user.save();
 
-			// Return jsonwebtoken
 			const payload = {
 				user: {
 					id: user.id,
@@ -74,7 +70,7 @@ router.post(
 			jwt.sign(
 				payload,
 				config.get('jwtSecret'),
-				{ expiresIn: 360000 }, // cahange this to 3600 at deploy
+				{ expiresIn: 360000 },
 				(err, token) => {
 					if (err) throw err;
 					res.json({ token });
