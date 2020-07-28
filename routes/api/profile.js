@@ -72,7 +72,11 @@ router.post(
 			bio,
 			skills: Array.isArray(skills)
 				? skills
-				: skills.split(',').map((skill) => ' ' + skill.trim()),
+				: skills.split(',').map((skill, index) => {
+						if (skill != '') {
+							return skill.trim();
+						}
+				  }),
 			status,
 			githubusername,
 		};
