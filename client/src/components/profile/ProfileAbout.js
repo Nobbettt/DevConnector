@@ -5,7 +5,8 @@ const ProfileAbout = ({
 	profile: {
 		bio,
 		skills,
-		user: { name, first = name.trim().split(' ')[0] },
+		user: { name },
+		first = name.split(' ')[0].trim(),
 	},
 }) => {
 	return (
