@@ -1,0 +1,5 @@
+{
+	"mongoURI": "mongodb+srv://nobbe:isCJBv5qIsBMJpjR@devconnector-knccu.mongodb.net/test?retryWrites=true&w=majority",
+	"jwtSecret": "mysecrettoken",
+	"githubToken": "a89767bd7977e505dd692f134c474f7bfdc21ba2 "
+}
